@@ -1,6 +1,7 @@
-package com.example.coursework_2;
+package com.example.coursework_2.service;
 
-import com.example.coursework_2.Exceptions.Bad_Request;
+import com.example.coursework_2.Question;
+import com.example.coursework_2.exceptions.BadRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -8,9 +9,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static com.example.coursework_2.Constants.*;
 import static org.assertj.core.api.Assertions.*;
@@ -27,27 +26,28 @@ public class ExaminerServiceImplTest {
     Question que5 = new Question(QUE5, ANS5);
 
     @Mock
-    QuestionServiceImpl questionServiceimpl;
+    private QuestionServiceImpl questionServiceimpl;
 
     @InjectMocks
-    ExaminerServiceImpl examinerServiceimpl;
+    private ExaminerServiceImpl examinerServiceimpl;
 
     @Test
-    public void shouldReturnRandomQuestions() {
-        Mockito.when(questionServiceimpl.getRandomQuestion()).thenReturn(que1, que2, que3, que4, que5);
+    public void shouldReturnGetQuestions() {
         Set<Question> expected = new HashSet<>(Arrays.asList(
                 new Question(QUE1, ANS1),
                 new Question(QUE2, ANS2),
                 new Question(QUE3, ANS3),
                 new Question(QUE4, ANS4),
                 new Question(QUE5, ANS5)));
-        assertThat(examinerServiceimpl.getQuestions(5)).isEqualTo(expected);
+        Mockito.when(questionServiceimpl.getRandomQuestion()).thenReturn(que5, que1, que3, que2, que4);
+        Mockito.when(questionServiceimpl.getAll()).thenReturn(expected);
+        assertThat(examinerServiceimpl.getQuestions(3)).containsExactlyInAnyOrder(que5,que1,que3);
     }
 
     @Test
     public void shouldReturnBadRequestException() {
-        Mockito.when(questionServiceimpl.getRandomQuestion()).thenReturn(que1, que2, que3, que4, que5);
-        assertThrows(Bad_Request.class, () -> examinerServiceimpl.getQuestions(7));
+        Mockito.when(questionServiceimpl.getAll()).thenReturn(Collections.emptyList());
+        assertThrows(BadRequest.class, () -> examinerServiceimpl.getQuestions(7));
     }
 }
 

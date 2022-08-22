@@ -3,8 +3,8 @@ package com.example.coursework_2;
 import java.util.Objects;
 
 public class Question {
-    private String question;
-    private String answer;
+    private final String question;
+    private final String answer;
 
     public Question(String question, String answer) {
         this.question = question;
@@ -21,8 +21,12 @@ public class Question {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o){
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()){
+            return false;
+        }
         Question question1 = (Question) o;
         return Objects.equals(question, question1.question) && Objects.equals(answer, question1.answer);
     }
@@ -34,6 +38,6 @@ public class Question {
 
     @Override
     public String toString() {
-        return "question='" + question + '\'' + ", answer='" + answer;
+        return "вопрос= " + question + " : " + " ответ= " + answer;
     }
 }

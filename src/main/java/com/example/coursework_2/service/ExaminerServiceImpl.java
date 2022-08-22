@@ -1,14 +1,13 @@
-package com.example.coursework_2;
+package com.example.coursework_2.service;
 
-import com.example.coursework_2.Exceptions.Bad_Request;
+import com.example.coursework_2.exceptions.BadRequest;
+import com.example.coursework_2.Question;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
 
 @Service
 public class ExaminerServiceImpl implements ExaminerService{
-//    Random random = new Random();
-   private final QuestionService questionService;
+   public final QuestionService questionService;
 
     ExaminerServiceImpl(QuestionService questionService) {
         this.questionService = questionService;
@@ -16,12 +15,12 @@ public class ExaminerServiceImpl implements ExaminerService{
 
     @Override
     public Collection <Question> getQuestions(int amount) {
-        Set<Question> que = new HashSet<>();
-        for (int i = 0; i < amount; i++) {
-            que.add(questionService.getRandomQuestion());
+        if (amount > questionService.getAll().size() || amount < 0) {
+            throw new BadRequest();
         }
-        if (amount > que.size()) {
-            throw new Bad_Request();
+        Set<Question> que = new HashSet<>();
+        while (amount > que.size()) {
+            que.add(questionService.getRandomQuestion());
         }
         return que;
     }

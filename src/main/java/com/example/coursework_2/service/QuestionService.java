@@ -1,4 +1,6 @@
-package com.example.coursework_2;
+package com.example.coursework_2.service;
+
+import com.example.coursework_2.Question;
 
 import java.util.Collection;
 
@@ -9,8 +11,6 @@ public interface QuestionService {
     Question add(Question question);
 
     Question remove(Question question);
-
-    Question find(Question question);
 
     Collection<Question> getAll();
 

@@ -1,5 +1,6 @@
-package com.example.coursework_2;
+package com.example.coursework_2.service;
 
+import com.example.coursework_2.Question;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
@@ -10,7 +11,7 @@ import static org.assertj.core.api.Assertions.*;
 
 public class QuestionServiceImplTest {
 
-    QuestionServiceImpl out = new QuestionServiceImpl();
+    private final QuestionService out = new QuestionServiceImpl();
 
 
     @Test
@@ -35,15 +36,13 @@ public class QuestionServiceImplTest {
     }
 
     @Test
-    public void shouldReturnFindQuestion() {
+    public void shouldReturnGetRandomQuestion(){
         Question que1 = new Question(QUE1, ANS1);
         Question que2 = new Question(QUE2, ANS2);
         Question que3 = new Question(QUE3, ANS3);
         out.add(que1);
         out.add(que2);
         out.add(que3);
-        Question expected = new Question(QUE2, ANS2);
-        Question actual = out.find(que2);
-        assertThat(actual).isEqualTo(expected);
+        assertThat(out.getAll().contains(out.getRandomQuestion()));
     }
 }
